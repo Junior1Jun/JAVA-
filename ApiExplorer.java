@@ -3,8 +3,10 @@ package APIpackage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Properties;
 
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -27,16 +29,20 @@ public class ApiExplorer {
         	conn.setDoOutput(true);
         	// 8. 전달받은 데이터를 BufferedReader 객체로 저장.
         	StringBuffer sb = new StringBuffer();
-        	String result = "";
+        	
         	
         	// 9. 저장된 데이터를 라인별로 읽어 StringBuilder 객체로 저장.
         	BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
         	while(br.ready()) {
         		sb.append(br.readLine());
         	}
-        	
-        	System.out.println(sb);
-           
+        	String tostr = sb.toString();
+    	    Properties properties = new Properties();
+            String str = "unicodedString=" + tostr;
+            StringReader stringReader = new StringReader(str);
+            properties.load(stringReader);
+            System.out.println(properties.getProperty("unicodedString"));
+
             
 //            JSONParser jsonParser = new JSONParser();
 //            JSONObject jsonObject = (JSONObject)jsonParser.parse(result);
